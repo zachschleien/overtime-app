@@ -5,7 +5,7 @@ describe 'navigate' do
     @user = FactoryGirl.create(:user)
     login_as(@user, :scope => :user)
   end
-  
+
   describe 'index' do
     before do
       visit posts_path
@@ -13,11 +13,11 @@ describe 'navigate' do
 
     it 'can be reached successfully' do
       expect(page.status_code).to eq(200)
-    end 
+    end
 
     it 'has a title of Posts' do
       expect(page).to have_content(/Posts/)
-    end 
+    end
 
     it 'has a list of posts' do
       post1 = FactoryGirl.build_stubbed(:post)
@@ -28,10 +28,20 @@ describe 'navigate' do
   end
 
   describe 'new' do
-    it 'has a link from the home page' do
+    it 'has a link from the homepage' do
       visit root_path
 
       click_link("new_post_from_nav")
+      expect(page.status_code).to eq(200)
+    end
+  end
+
+  describe 'delete' do
+    it 'can be deleted' do
+      @post = FactoryGirl.create(:post)
+      visit posts_path
+
+      click_link("delete_post_#{@post.id}_from_index")
       expect(page.status_code).to eq(200)
     end
   end
